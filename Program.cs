@@ -1,5 +1,7 @@
 using WebApiDemo.Models;
+using WebApiDemo.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WebApiDemo;
 
@@ -10,6 +12,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+
+        // builder.Services.AddAuthentication("BasicAuthentication")
+        //     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            
+        builder.Services.AddScoped<ITodoService, TodoService>();
 
         builder.Services.AddControllers();
         builder.Services.AddDbContext<WebApiDemoContext>(opt => 
@@ -27,10 +34,12 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        
+
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
-
 
         app.MapControllers();
 

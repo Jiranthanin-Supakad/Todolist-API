@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiDemo.Models;
 
 namespace WebApiDemo.ViewModels
 {
@@ -13,5 +14,7 @@ namespace WebApiDemo.ViewModels
         public string? Description { get; set; }
 
         public DateTime? DueDate { get; set; }
+
+        //public string[] Tags { get; set; }
     }
 }

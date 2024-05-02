@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace testapp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TodoEntires",
+                name: "TodoEntries",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -24,7 +24,7 @@ namespace testapp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoEntires", x => x.Id);
+                    table.PrimaryKey("PK_TodoEntries", x => x.Id);
                 });
         }
 
@@ -32,7 +32,7 @@ namespace testapp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TodoEntires");
+                name: "TodoEntries");
         }
     }
 }

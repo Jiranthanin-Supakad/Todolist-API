@@ -12,8 +12,8 @@ using WebApiDemo.Models;
 namespace testapp.Migrations
 {
     [DbContext(typeof(WebApiDemoContext))]
-    [Migration("20240426093845_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240502113053_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace testapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoEntires");
+                    b.ToTable("TodoEntries");
                 });
 #pragma warning restore 612, 618
         }

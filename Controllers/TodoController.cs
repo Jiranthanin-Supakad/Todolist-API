@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApiDemo.ViewModels;
 using WebApiDemo.Models;
+using WebApiDemo.Services;
 
 namespace WebApiDemo.Controllers
 {
@@ -10,76 +11,79 @@ namespace WebApiDemo.Controllers
     {
         
         private readonly ILogger<TodoController> _logger;
-        private readonly WebApiDemoContext _context;
+        private readonly WebApiDemoContext? _context;
+        private readonly ITodoService _todoService;
 
-        public TodoController(ILogger<TodoController> logger, WebApiDemoContext context)
+        // private readonly string? userId;
+
+        public TodoController(ILogger<TodoController> logger, WebApiDemoContext context, ITodoService todoService)
         {
             _logger = logger;
-            _context = context;
+            // _context = context;
+            _todoService = todoService;
         }
-
+            
         [HttpGet]
-        public ActionResult List()
+        public async Task<ActionResult> List()
         {
-            return Ok(_context.TodoEntries.ToList());
+            return Ok(await _todoService.GetAll());
         }
 
         [HttpGet("filter")]
-        public ActionResult Search([FromQuery] string name)
+        public async Task<ActionResult> Search([FromQuery] string name)
         {
-            return Ok(_context.TodoEntries
-                .Where(todo => todo.Title.Contains(name))
-                .ToList());
+            return Ok(await _todoService.FilterByName(name));
         }
 
-        [HttpPost]
-        public ActionResult Add([FromBody] TodoEntryViewModel entry)
-        {
-            var newTodoEntry = new TodoEntry(entry.Title, entry.Description, entry.DueDate);
+        // [HttpPost]
+        // public async Task<ActionResult> Add([FromBody] TodoEntryViewModel entry)
+        // {
+        //     var newTodoEntry = new TodoEntry(entry.Title, entry.Description, entry.DueDate);
 
-            if (_context.TodoEntries.Any(existingTodo => existingTodo.Id == newTodoEntry.Id))
-            {
-                return Conflict("Duplicated Todo Id");
-            }
+        //     if (_todoService.TodoEntries.Any(existingTodo => existingTodo.Id == newTodoEntry.Id))
+        //     {
+        //         return Conflict("Duplicated Todo Id");
+        //     }
 
-            _context.TodoEntries.Add(newTodoEntry);
-            return Created($"/{newTodoEntry.Id}", entry);
-        }
-
-
-        [HttpDelete("{todoId}")]
-        public ActionResult Remove([FromRoute] Guid todoId)
-        {
-            TodoEntry? removeEntry = _context.TodoEntries.Find(todoId); 
-
-            if (removeEntry == null)
-            {
-                return NotFound("Todo entry not found");
-            }
-
-            _context.TodoEntries.Remove(removeEntry);
-            _context.SaveChanges();
-            return Ok($"Removed todo with ID: {removeEntry.Id}");
-        }
+        //     _todoService.TodoEntries.Add(newTodoEntry);
+        //     _todoService.SaveChanges();
+        //     return Created(await $"/{newTodoEntry.Id}", entry);
+        // }
 
 
-        [HttpPut("{todoId}")]
-        public ActionResult Replace([FromRoute] Guid todoId, [FromBody] TodoEntryViewModel entry)
-        {
+        // [HttpDelete("{todoId}")]
+        // public async Task<ActionResult> Remove([FromRoute] Guid todoId)
+        // {
+        //     TodoEntry? removeEntry = _todoService.TodoEntries.Find(todoId); 
+
+        //     if (removeEntry == null)
+        //     {
+        //         return NotFound("Todo entry not found");
+        //     }
+
+        //     _todoService.TodoEntries.Remove(removeEntry);
+        //     _todoService.SaveChanges();
+        //     return Ok(await $"Removed todo with ID: {removeEntry.Id}");
+        // }
+
+
+        // [HttpPut("{todoId}")]
+        // public async Task<ActionResult> Replace([FromRoute] Guid todoId, [FromBody] TodoEntryViewModel entry)
+        // {
                                                        
-            TodoEntry? existingEntry = _context.TodoEntries.Find(todoId); 
+        //     TodoEntry? existingEntry = _todoService.UpdateTodo(todoId); 
 
-            if (existingEntry == null)
-            {
-                    return NotFound("Todo Id not found");
-            }
+        //     if (existingEntry == null)
+        //     {
+        //             return NotFound("Todo Id not found");
+        //     }
 
-            existingEntry.Title = entry.Title;
-            existingEntry.Description = entry.Description;
-            existingEntry.DueDate = entry.DueDate;
+        //     existingEntry.Title = entry.Title;
+        //     existingEntry.Description = entry.Description;
+        //     existingEntry.DueDate = entry.DueDate;
 
-            return Ok($"Updated todo: Title - {existingEntry.Title}, Description - {existingEntry.Description}, DueDate - {existingEntry.DueDate}");
+        //     return Ok(await $"Updated todo: Title - {existingEntry.Title}, Description - {existingEntry.Description}, DueDate - {existingEntry.DueDate}");
 
-        }
+        // }
     }
 }

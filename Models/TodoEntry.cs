@@ -19,6 +19,10 @@ public class TodoEntry
     public DateTime UpdateDate { get; set; }
     public DateTime? DueDate { get; set; }
 
+    //public List<TodoTag> Tags { get; } = [];
+
+    //public Users Owner { get; set;} = null;
+
     public TodoEntry() { }
 
     public TodoEntry(string title, string? description = null, DateTime? dueDate = null)

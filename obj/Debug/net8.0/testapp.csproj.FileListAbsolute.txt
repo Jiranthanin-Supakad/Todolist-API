@@ -121,6 +121,7 @@
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/testapp.csproj.CoreCompileInputs.cache
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/testapp.MvcApplicationPartsAssemblyInfo.cs
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/testapp.MvcApplicationPartsAssemblyInfo.cache
+/Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/testapp.sourcelink.json
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/staticwebassets.build.json
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/staticwebassets.development.json
 /Users/jiran/Documents/C#/testapp/obj/Debug/net8.0/staticwebassets/msbuild.testapp.Microsoft.AspNetCore.StaticWebAssets.props
