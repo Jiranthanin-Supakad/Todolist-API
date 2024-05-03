@@ -9,7 +9,7 @@ namespace WebApiDemo.Services
         Task<TodoEntry?> GetById(Guid id);
         Task<bool> AddTodo(TodoEntry entry);
         Task<bool> RemoveTodo(Guid id);
-        Task<bool> UpdateTodo(TodoEntryViewModel entry);
+        Task<bool> UpdateTodo(Guid id,TodoEntryViewModel entry);
 
     }
 }

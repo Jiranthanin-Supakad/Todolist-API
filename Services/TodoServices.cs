@@ -13,7 +13,7 @@ namespace WebApiDemo.Services
         {
             _logger = logger;
             _context = context;
-        }
+        }got
 
         public async Task<List<TodoEntry>> GetAll()
         {
@@ -50,24 +50,28 @@ namespace WebApiDemo.Services
             else
             {
                 _context.TodoEntries.Remove(todo);
+                await _context.SaveChangesAsync();
                 return true;
             }
         }
 
-        public async Task<bool> UpdateTodo(TodoEntryViewModel entry)
+        public async Task<bool> UpdateTodo(Guid id, TodoEntryViewModel entry)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
-            TodoEntry todoEntry = new TodoEntry(entry.Title, entry.Description, entry.DueDate);
-
-            // if (entry.Tags.Length > 0)
-            // {
-            //     var listOfTags = entry.Tags.Select(tag => new TodoTag { Name = tag });
-            //     todoEntry.Tags.AddRange(listOfTags);
-            // }
 
             try
             {
-                await _context.TodoEntries.AddAsync(todoEntry);
+                var todoEntry = await _context.TodoEntries.FindAsync(id);
+
+                if (todoEntry == null)
+                {
+                    return false; 
+                }
+
+                todoEntry.Title = entry.Title;
+                todoEntry.Description = entry.Description;
+                todoEntry.DueDate = entry.DueDate;
+
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
@@ -79,6 +83,45 @@ namespace WebApiDemo.Services
                 return false;
             }
         }
+
+
+        // public async Task<bool> UpdateTodo(TodoEntryViewModel entry)
+        // {
+        //     using var transaction = await _context.Database.BeginTransactionAsync();
+            
+        //     try
+        //     {
+        //         var existingTodo = await _context.TodoEntries.FirstOrDefaultAsync(t =>
+        //             t.Title == entry.Title &&
+        //             t.Description == entry.Description &&
+        //             t.DueDate == entry.DueDate);
+
+        //         if (existingTodo == null)
+        //         {
+        //             return false;
+        //         }
+
+        //         if (_context.TodoEntries.Any(todo => todo.Id != existingTodo.Id))
+        //         {
+        //             return false;
+        //         }
+
+        //         existingTodo.Title = entry.Title;
+        //         existingTodo.Description = entry.Description;
+        //         existingTodo.DueDate = entry.DueDate;
+
+        //         await _context.SaveChangesAsync();
+        //         await transaction.CommitAsync();
+
+        //         return true;
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logger.LogError("Update Todo Failed, Message: {error}", ex);
+        //         return false;
+        //     }
+        // }
+
 
         // public DateTime GetDate()
         // {

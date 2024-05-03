@@ -49,7 +49,21 @@ namespace WebApiDemo.Controllers
         //     _todoService.SaveChanges();
         //     return Created(await $"/{newTodoEntry.Id}", entry);
         // }
+        
+        [HttpPost]
+        public async Task<ActionResult> Add([FromBody] TodoEntryViewModel entry)
+        {
+            var todoEntry = new TodoEntry(entry.Title, entry.Description, entry.DueDate);
 
+            if (await _todoService.AddTodo(todoEntry))
+            {
+                return Created($"/{todoEntry.Id}", entry);
+            }
+            else
+            {
+                return BadRequest("Failed to add todo entry.");
+            }
+        }
 
         // [HttpDelete("{todoId}")]
         // public async Task<ActionResult> Remove([FromRoute] Guid todoId)
@@ -66,6 +80,20 @@ namespace WebApiDemo.Controllers
         //     return Ok(await $"Removed todo with ID: {removeEntry.Id}");
         // }
 
+        [HttpDelete("{todoId}")]
+        public async Task<ActionResult> Remove([FromRoute] Guid todoId)
+        {
+            var isSuccess = await _todoService.RemoveTodo(todoId);
+
+            if (isSuccess)
+            {
+                return Ok($"Removed todo with ID: {todoId}");
+            }
+            else
+            {
+                return NotFound("Todo entry not found");
+            }
+        }
 
         // [HttpPut("{todoId}")]
         // public async Task<ActionResult> Replace([FromRoute] Guid todoId, [FromBody] TodoEntryViewModel entry)
@@ -83,7 +111,20 @@ namespace WebApiDemo.Controllers
         //     existingEntry.DueDate = entry.DueDate;
 
         //     return Ok(await $"Updated todo: Title - {existingEntry.Title}, Description - {existingEntry.Description}, DueDate - {existingEntry.DueDate}");
-
         // }
+
+        [HttpPut("{todoId}")]
+        public async Task<ActionResult> Replace([FromRoute] Guid todoId, [FromBody] TodoEntryViewModel entry)
+        {
+            var isSuccess = await _todoService.UpdateTodo(todoId ,entry);
+
+            if (!isSuccess)
+            {
+                return NotFound("Todo entry not found");
+            }
+
+            return Ok($"Updated todo with ID: {todoId}");
+        }
+
     }
 }
