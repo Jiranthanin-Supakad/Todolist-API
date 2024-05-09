@@ -13,7 +13,7 @@ namespace WebApiDemo.Services
         {
             _logger = logger;
             _context = context;
-        }got
+        }
 
         public async Task<List<TodoEntry>> GetAll()
         {
@@ -83,49 +83,5 @@ namespace WebApiDemo.Services
                 return false;
             }
         }
-
-
-        // public async Task<bool> UpdateTodo(TodoEntryViewModel entry)
-        // {
-        //     using var transaction = await _context.Database.BeginTransactionAsync();
-            
-        //     try
-        //     {
-        //         var existingTodo = await _context.TodoEntries.FirstOrDefaultAsync(t =>
-        //             t.Title == entry.Title &&
-        //             t.Description == entry.Description &&
-        //             t.DueDate == entry.DueDate);
-
-        //         if (existingTodo == null)
-        //         {
-        //             return false;
-        //         }
-
-        //         if (_context.TodoEntries.Any(todo => todo.Id != existingTodo.Id))
-        //         {
-        //             return false;
-        //         }
-
-        //         existingTodo.Title = entry.Title;
-        //         existingTodo.Description = entry.Description;
-        //         existingTodo.DueDate = entry.DueDate;
-
-        //         await _context.SaveChangesAsync();
-        //         await transaction.CommitAsync();
-
-        //         return true;
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError("Update Todo Failed, Message: {error}", ex);
-        //         return false;
-        //     }
-        // }
-
-
-        // public DateTime GetDate()
-        // {
-        //     return DateTime.Now;
-        // }
     }
 }
