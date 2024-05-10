@@ -15,6 +15,8 @@ namespace WebApiDemo.ViewModels
 
         public DateTime? DueDate { get; set; }
 
+        public string? Status { get; set; }
+
         //public string[] Tags { get; set; }
     }
 }

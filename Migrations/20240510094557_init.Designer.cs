@@ -12,8 +12,8 @@ using WebApiDemo.Models;
 namespace testapp.Migrations
 {
     [DbContext(typeof(WebApiDemoContext))]
-    [Migration("20240502113053_Init")]
-    partial class Init
+    [Migration("20240510094557_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace testapp.Migrations
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()

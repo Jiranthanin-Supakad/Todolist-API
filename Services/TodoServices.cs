@@ -71,6 +71,9 @@ namespace WebApiDemo.Services
                 todoEntry.Title = entry.Title;
                 todoEntry.Description = entry.Description;
                 todoEntry.DueDate = entry.DueDate;
+                if (entry.Status != null) {
+                    todoEntry.Status = entry.Status;
+                }
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
